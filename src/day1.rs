@@ -110,7 +110,7 @@ pub fn part1() {
     for input in INPUT.iter() {
         total += calc_fuel_for_mass(*input);
     }
-    println!("{}", total);
+    println!("part 1 result = {}", total);
 }
 
 fn calc_recursive_fuel_for_mass(mass: i32) -> i32 {
@@ -128,5 +128,5 @@ pub fn part2() {
     for input in INPUT.iter() {
         total += calc_recursive_fuel_for_mass(*input);
     }
-    println!("{}", total);
+    println!("part 2 result = {}", total);
 }
