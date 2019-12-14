@@ -1,4 +1,5 @@
 mod day1;
+mod day2;
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();
@@ -21,6 +22,11 @@ fn main() {
             println!("Results for day {}...", day_number);
             day1::part1();
             day1::part2();
+        },
+        2 => {
+            println!("Results for day {}...", day_number);
+            day2::part1();
+            day2::part2();
         },
         _ => {
             println!("Unexpected day number: {}", day_number);
