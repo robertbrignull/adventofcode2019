@@ -1,6 +1,3 @@
-use std::io::stdout;
-use std::io::Write;
-
 fn get_input() -> Vec<i32> {
     return std::fs::read_to_string("src/day5_input").unwrap()
         .split(",")
@@ -16,25 +13,9 @@ fn resolve_input(mode: i32, input: i32, program: &Vec<i32>) -> i32 {
     }
 }
 
-fn read_int(prompt: String) -> i32 {
-    print!("{}", prompt);
-    stdout().flush().unwrap();
-
-    let mut input = String::new();
-    std::io::stdin()
-        .read_line(&mut input)
-        .expect("failed to read from stdin");
-
-    return match input.trim().parse::<i32>() {
-        Ok(i) => i,
-        Err(..) => {
-            println!("User input \"{}\" is not a valid integer", input);
-            std::process::exit(1);
-        },
-    };
-}
-
-fn eval_int_code(part_number: &str, program: &mut Vec<i32>) {
+fn eval_int_code(user_input: i32, program: &mut Vec<i32>) -> Option<i32> {
+    let mut input_used = false;
+    let mut last_output = Option::None;
     let mut next_op_index = 0;
     loop {
         let instruction = program[next_op_index];
@@ -61,17 +42,20 @@ fn eval_int_code(part_number: &str, program: &mut Vec<i32>) {
                 next_op_index += 4;
             },
             3 => {
-                let input = read_int(format!("Enter input for {}: ", part_number));
+                if input_used {
+                    println!("Tried to get input twice");
+                    std::process::exit(1);
+                }
+                input_used = true;
                 let output_index = program[next_op_index + 1];
-                program[output_index as usize] = input;
+                program[output_index as usize] = user_input;
                 next_op_index += 2;
             },
             4 => {
-                let input = resolve_input(
+                last_output = Option::Some(resolve_input(
                     (instruction % 1000) / 100,
                     program[next_op_index + 1],
-                    program);
-                println!("{}", input);
+                    program));
                 next_op_index += 2;
             },
             5 | 6 => {
@@ -115,7 +99,7 @@ fn eval_int_code(part_number: &str, program: &mut Vec<i32>) {
                 next_op_index += 4;
             },
             99 => {
-                return;
+                return last_output;
             },
             _ => {
                 println!("Encountered unexpected op code {} at position {}", op, next_op_index);
@@ -127,8 +111,6 @@ fn eval_int_code(part_number: &str, program: &mut Vec<i32>) {
 
 pub fn run() {
     let program = get_input();
-    println!("Running part 1...");
-    eval_int_code("part 1", &mut program.clone());
-    println!("Running part 2...");
-    eval_int_code("part 2", &mut program.clone());
+    println!("part 1 result = {}", eval_int_code(1, &mut program.clone()).unwrap());
+    println!("part 2 result = {}", eval_int_code(5, &mut program.clone()).unwrap());
 }
