@@ -34,8 +34,7 @@ fn main() {
         },
         3 => {
             println!("Results for day {}...", day_number);
-            day3::part1();
-            day3::part2();
+            day3::run();
         },
         4 => {
             println!("Results for day {}...", day_number);

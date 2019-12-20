@@ -1,14 +1,10 @@
+use std::collections::HashSet;
 use std::str::FromStr;
 
+#[derive(Eq, PartialEq, Hash)]
 struct Point {
     x: i32,
     y: i32,
-}
-
-impl PartialEq for Point {
-    fn eq(&self, other: &Point) -> bool {
-        return self.x == other.x && self.y == other.y;
-    }
 }
 
 enum Instruction {
@@ -47,33 +43,33 @@ fn get_input() -> Vec<Vec<Instruction>> {
         .collect::<Vec<Vec<Instruction>>>();
 }
 
-fn get_touches_points(wire: &Vec<Instruction>) -> Vec<Point> {
+fn get_touches_points(wire: &Vec<Instruction>) -> HashSet<Point> {
     let mut x = 0;
     let mut y = 0;
-    let mut touching_points = Vec::new();
+    let mut touching_points = HashSet::new();
     for instruction in wire {
         match instruction {
             Instruction::U(n) => {
                 for i in 1..n+1 {
-                    touching_points.push(Point {x, y: y + i});
+                    touching_points.insert(Point {x, y: y + i});
                 }
                 y += n;
             },
             Instruction::D(n) => {
                 for i in 1..n+1 {
-                    touching_points.push(Point {x, y: y - i});
+                    touching_points.insert(Point {x, y: y - i});
                 }
                 y -= n;
             },
             Instruction::L(n) => {
                 for i in 1..n+1 {
-                    touching_points.push(Point {x: x - i, y});
+                    touching_points.insert(Point {x: x - i, y});
                 }
                 x -= n;
             },
             Instruction::R(n) => {
                 for i in 1..n+1 {
-                    touching_points.push(Point {x: x + i, y});
+                    touching_points.insert(Point {x: x + i, y});
                 }
                 x += n;
             },
@@ -82,7 +78,7 @@ fn get_touches_points(wire: &Vec<Instruction>) -> Vec<Point> {
     return touching_points;
 }
 
-fn get_intersecting_points(wires: &Vec<Vec<Instruction>>) -> Vec<Point> {
+fn get_intersecting_points(wires: &Vec<Vec<Instruction>>) -> HashSet<Point> {
     let mut intersecting_points = get_touches_points(&wires[0]);
     for wire in wires.iter().skip(1) {
         let touching_spaces = get_touches_points(wire);
@@ -95,8 +91,8 @@ fn dist(point: &Point) -> i32 {
     return point.x.abs() + point.y.abs();
 }
 
-fn nearest_dist(points: &Vec<Point>) -> i32 {
-    let mut nearest_dist = dist(&points[0]);
+fn nearest_dist(points: &HashSet<Point>) -> i32 {
+    let mut nearest_dist = dist(&points.iter().next().unwrap());
     for point in points.iter().skip(1) {
         let d = dist(point);
         if d < nearest_dist {
@@ -153,8 +149,8 @@ fn signal_delay_sum_for_wires(wires: &Vec<Vec<Instruction>>, point: &Point) -> i
     return delay;
 }
 
-fn shortest_signal_delay(wires: &Vec<Vec<Instruction>>, points: &Vec<Point>) -> i32 {
-    let mut shortest_intersection = signal_delay_sum_for_wires(wires, &points[0]);
+fn shortest_signal_delay(wires: &Vec<Vec<Instruction>>, points: &HashSet<Point>) -> i32 {
+    let mut shortest_intersection = signal_delay_sum_for_wires(wires, &points.iter().next().unwrap());
     for point in points.iter().skip(1) {
         let d = signal_delay_sum_for_wires(wires, point);
         if d < shortest_intersection {
@@ -164,14 +160,9 @@ fn shortest_signal_delay(wires: &Vec<Vec<Instruction>>, points: &Vec<Point>) -> 
     return shortest_intersection;
 }
 
-pub fn part1() {
+pub fn run() {
     let wires = get_input();
     let intersecting_points = get_intersecting_points(&wires);
     println!("part 1 result = {}", nearest_dist(&intersecting_points));
-}
-
-pub fn part2() {
-    let wires = get_input();
-    let intersecting_points = get_intersecting_points(&wires);
     println!("part 2 result = {}", shortest_signal_delay(&wires, &intersecting_points));
 }
