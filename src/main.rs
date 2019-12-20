@@ -6,6 +6,7 @@ mod day5;
 mod day6;
 mod day7;
 mod day8;
+mod day9;
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();
@@ -43,6 +44,7 @@ fn run_day(day_number: i32) {
         6 => { day6::run(); },
         7 => { day7::run(); },
         8 => { day8::run(); },
+        9 => { day9::run(); },
         _ => {}
     }
 }
