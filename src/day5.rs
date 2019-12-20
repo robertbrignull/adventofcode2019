@@ -16,8 +16,8 @@ fn resolve_input(mode: i32, input: i32, program: &Vec<i32>) -> i32 {
     }
 }
 
-fn read_int() -> i32 {
-    print!("Enter input: ");
+fn read_int(prompt: String) -> i32 {
+    print!("{}", prompt);
     stdout().flush().unwrap();
 
     let mut input = String::new();
@@ -34,7 +34,7 @@ fn read_int() -> i32 {
     };
 }
 
-fn eval_int_code(program: &mut Vec<i32>) {
+fn eval_int_code(part_number: &str, program: &mut Vec<i32>) {
     let mut next_op_index = 0;
     loop {
         let instruction = program[next_op_index];
@@ -61,7 +61,7 @@ fn eval_int_code(program: &mut Vec<i32>) {
                 next_op_index += 4;
             },
             3 => {
-                let input = read_int();
+                let input = read_int(format!("Enter input for {}: ", part_number));
                 let output_index = program[next_op_index + 1];
                 program[output_index as usize] = input;
                 next_op_index += 2;
@@ -125,7 +125,12 @@ fn eval_int_code(program: &mut Vec<i32>) {
     }
 }
 
-pub fn run() {
+pub fn part1() {
     let mut program = get_input();
-    eval_int_code(&mut program);
+    eval_int_code("part 1", &mut program);
+}
+
+pub fn part2() {
+    let mut program = get_input();
+    eval_int_code("part 1", &mut program);
 }
