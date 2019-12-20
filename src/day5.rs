@@ -125,12 +125,10 @@ fn eval_int_code(part_number: &str, program: &mut Vec<i32>) {
     }
 }
 
-pub fn part1() {
-    let mut program = get_input();
-    eval_int_code("part 1", &mut program);
-}
-
-pub fn part2() {
-    let mut program = get_input();
-    eval_int_code("part 1", &mut program);
+pub fn run() {
+    let program = get_input();
+    println!("Running part 1...");
+    eval_int_code("part 1", &mut program.clone());
+    println!("Running part 2...");
+    eval_int_code("part 2", &mut program.clone());
 }

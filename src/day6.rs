@@ -42,13 +42,6 @@ fn count_children(parent: &String, orbits: &Orbits) -> OrbitCount {
     return result;
 }
 
-pub fn part1() {
-    let orbits = get_input();
-    let root = "COM".to_string();
-    let result = count_children(&root, &orbits);
-    println!("part 1 result = {}", result.num_orbits);
-}
-
 fn find_path(start: &String, end: &String, prev: &String, orbits: &Orbits) -> Option<i32> {
     if start.eq(end) {
         return Option::Some(0);
@@ -76,17 +69,20 @@ fn find_path(start: &String, end: &String, prev: &String, orbits: &Orbits) -> Op
     return result;
 }
 
-pub fn part2() {
+pub fn run() {
     let orbits = get_input();
+
+    let root = "COM".to_string();
+    println!("part 1 result = {}", count_children(&root, &orbits).num_orbits);
+
     let start = "YOU".to_string();
     let end = "SAN".to_string();
-    let result = find_path(&start, &end, &start, &orbits);
-    match result {
+    match find_path(&start, &end, &start, &orbits) {
         Some(dist) => {
             println!("part 2 result = {}", dist - 2);
         },
         None => {
-            println!("Unable to find path from {} to {}", start, end);
+            println!("Unable to solve part 2. Unable to find path from {} to {}", start, end);
             std::process::exit(1);
         }
     }

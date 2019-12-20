@@ -107,16 +107,17 @@ fn get_all_passwords(range: &Range, prefix: Vec<u8>) -> Vec<Vec<u8>> {
     return result;
 }
 
-pub fn part1() {
+pub fn run() {
     let range = get_input();
-    let mut passwords = get_all_passwords(&range, vec!());
-    passwords.retain(|p| is_valid_part1_password(&range, p));
-    println!("part 1 result = {}", passwords.len());
-}
+    let passwords = get_all_passwords(&range, vec!());
 
-pub fn part2() {
-    let range = get_input();
-    let mut passwords = get_all_passwords(&range, vec!());
-    passwords.retain(|p| is_valid_part2_password(&range, p));
-    println!("part 2 result = {}", passwords.len());
+    let num_part1_passwords = passwords.clone()
+        .iter().filter(|p| is_valid_part1_password(&range, p))
+        .count();
+    println!("part 1 result = {}", num_part1_passwords);
+
+    let num_part2_passwords = passwords.clone()
+        .iter().filter(|p| is_valid_part2_password(&range, p))
+        .count();
+    println!("part 2 result = {}", num_part2_passwords);
 }

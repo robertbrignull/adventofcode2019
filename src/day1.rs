@@ -5,32 +5,31 @@ fn get_input() -> Vec<i32> {
         .collect::<Vec<i32>>();
 }
 
-fn calc_fuel_for_mass(mass: i32) -> i32 {
+fn calc_fuel_for_mass(mass: &i32) -> i32 {
     return (mass / 3) - 2;
 }
 
-pub fn part1() {
-    let mut total: i32 = 0;
-    for input in get_input() {
-        total += calc_fuel_for_mass(input);
-    }
-    println!("part 1 result = {}", total);
-}
-
-fn calc_recursive_fuel_for_mass(mass: i32) -> i32 {
+fn calc_recursive_fuel_for_mass(mass: &i32) -> i32 {
     let mut fuel: i32 = 0;
     let mut extra_fuel: i32 = calc_fuel_for_mass(mass);
     while extra_fuel > 0 {
         fuel += extra_fuel;
-        extra_fuel = calc_fuel_for_mass(extra_fuel);
+        extra_fuel = calc_fuel_for_mass(&extra_fuel);
     }
     return fuel;
 }
 
-pub fn part2() {
-    let mut total: i32 = 0;
-    for input in get_input() {
-        total += calc_recursive_fuel_for_mass(input);
-    }
-    println!("part 2 result = {}", total);
+
+pub fn run() {
+    let input = get_input();
+
+    let part1_result: i32 = input.iter()
+        .map(|x| calc_fuel_for_mass(x))
+        .sum();
+    println!("part 1 result = {}", part1_result);
+
+    let part2_result: i32 = input.iter()
+        .map(|x| calc_recursive_fuel_for_mass(x))
+        .sum();
+    println!("part 2 result = {}", part2_result);
 }

@@ -35,7 +35,7 @@ fn eval_int_code(program: &mut Vec<i32>) {
     }
 }
 
-pub fn part1() {
+fn part1() {
     let mut program = get_input();
     program[1] = 12;
     program[2] = 2;
@@ -43,7 +43,7 @@ pub fn part1() {
     println!("part 1 result = {}", program[0]);
 }
 
-pub fn part2() {
+fn part2() {
     let initial_program = get_input();
     for x in 0..100 {
         for y in 0..100 {
@@ -60,4 +60,9 @@ pub fn part2() {
     }
     println!("Unable to solve part 2");
     std::process::exit(1);
+}
+
+pub fn run() {
+    part1();
+    part2();
 }

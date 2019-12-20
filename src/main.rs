@@ -10,6 +10,7 @@ fn main() {
 
     if args.len() == 1 {
         for i in 1..26 {
+            println!("Day {} results...", i);
             run_day(i);
         }
         return;
@@ -32,35 +33,12 @@ fn main() {
 
 fn run_day(day_number: i32) {
     match day_number {
-        1 => {
-            println!("Results for day {}...", day_number);
-            day1::part1();
-            day1::part2();
-        },
-        2 => {
-            println!("Results for day {}...", day_number);
-            day2::part1();
-            day2::part2();
-        },
-        3 => {
-            println!("Results for day {}...", day_number);
-            day3::run();
-        },
-        4 => {
-            println!("Results for day {}...", day_number);
-            day4::part1();
-            day4::part2();
-        },
-        5 => {
-            println!("Results for day {}...", day_number);
-            day5::part1();
-            day5::part2();
-        },
-        6 => {
-            println!("Results for day {}...", day_number);
-            day6::part1();
-            day6::part2();
-        },
+        1 => { day1::run(); },
+        2 => { day2::run(); },
+        3 => { day3::run(); },
+        4 => { day4::run(); },
+        5 => { day5::run(); },
+        6 => { day6::run(); },
         _ => {}
     }
 }
